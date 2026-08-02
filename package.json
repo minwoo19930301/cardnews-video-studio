@@ -17,6 +17,8 @@
   "dependencies": {
     "@remotion/cli": "^4.0.485",
     "@remotion/fonts": "^4.0.485",
+    "gifenc": "^1.0.3",
+    "mp4-muxer": "^5.2.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "remotion": "^4.0.485"

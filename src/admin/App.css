@@ -110,7 +110,155 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   font-weight: 700;
 }
 
+.phase-wrap,
+.slide-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  align-items: stretch;
+  margin-bottom: 8px;
+}
+.phase-wrap.active .phase-card,
+.slide-wrap.active .slide-card {
+  border-color: var(--accent);
+}
+.dl-mini {
+  writing-mode: horizontal-tb;
+  min-width: 72px;
+  padding: 0 8px !important;
+  font-size: 10px !important;
+  height: auto !important;
+  align-self: stretch;
+}
+.format-pick {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+.format-pick select {
+  background: #22232c;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  height: 34px;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.phase-card {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #1c1d26;
+  padding: 12px 12px 10px;
+  margin-bottom: 0;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.slide-wrap .slide-card { margin: 0; }
+.phase-card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(231, 255, 89, 0.22);
+}
+.phase-card.intro { background: linear-gradient(135deg, #22242c, #1a1b22); }
+.phase-card.outro { background: linear-gradient(135deg, #3a1c1c, #241414); }
+.phase-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+.phase-card.outro .phase-tag { color: #ffb4ad; }
+.phase-card strong { font-size: 13px; font-weight: 800; }
+.phase-card em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--muted);
+}
+.rail-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 8px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+.rail-divider::before,
+.rail-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
 .slide-list { display: flex; flex-direction: column; gap: 8px; }
+
+.phone-intro {
+  background: #fff !important;
+  color: #101010;
+  display: grid;
+  place-items: center;
+}
+.intro-inner {
+  text-align: center;
+  padding: 24px;
+  width: 100%;
+}
+.intro-brand {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  margin-bottom: 18px;
+}
+.intro-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.intro-sub {
+  font-size: 13px;
+  color: #8a8a8a;
+  font-weight: 500;
+  margin-bottom: 22px;
+}
+.intro-bar {
+  width: 48px;
+  height: 4px;
+  background: var(--red);
+  margin: 0 auto;
+}
+
+.phone-outro {
+  background: var(--red) !important;
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+.outro-inner { text-align: center; padding: 24px; width: 100%; }
+.outro-brand {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin-bottom: 22px;
+}
+.outro-cta {
+  display: inline-block;
+  background: #fff;
+  color: #101010;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 12px 18px;
+  border-radius: 999px;
+}
 .slide-card {
   text-align: left;
   border: 1px solid transparent;
@@ -192,12 +340,247 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   box-shadow: 0 24px 60px rgba(0,0,0,.5);
   color: #fff;
 }
+.media-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
 .phone .media {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform-origin: center center;
+  will-change: transform, filter, opacity;
+}
+
+/* 사진 효과 — 무한 루프 미리보기 */
+.pe-none .media { transform: scale(1.05); animation: none; }
+.pe-ken-in .media { animation: peKenIn 3.2s ease-in-out infinite alternate; }
+.pe-ken-out .media { animation: peKenOut 3.2s ease-in-out infinite alternate; }
+.pe-pan-left .media { animation: pePanL 4s ease-in-out infinite alternate; }
+.pe-pan-right .media { animation: pePanR 4s ease-in-out infinite alternate; }
+.pe-zoom-pulse .media { animation: pePulse 2.4s ease-in-out infinite; }
+.pe-fade-rise .media { animation: peFadeRise 2.8s ease-in-out infinite; }
+.pe-blur-sharp .media { animation: peBlur 2.6s ease-in-out infinite; }
+.pe-drift-up .media { animation: peDrift 4s ease-in-out infinite alternate; }
+.pe-soft-zoom .media { animation: peSoftZoom 3.6s ease-in-out infinite alternate; }
+
+@keyframes peKenIn {
+  from { transform: scale(1.05); }
+  to { transform: scale(1.16); }
+}
+@keyframes peKenOut {
+  from { transform: scale(1.18); }
+  to { transform: scale(1.05); }
+}
+@keyframes pePanL {
+  from { transform: scale(1.18) translateX(4%); }
+  to { transform: scale(1.18) translateX(-4%); }
+}
+@keyframes pePanR {
+  from { transform: scale(1.18) translateX(-4%); }
+  to { transform: scale(1.18) translateX(4%); }
+}
+@keyframes pePulse {
+  0%, 100% { transform: scale(1.08); }
+  50% { transform: scale(1.14); }
+}
+@keyframes peFadeRise {
+  0%, 100% { transform: scale(1.1) translateY(12px); opacity: 0.55; }
+  40%, 70% { transform: scale(1.1) translateY(0); opacity: 1; }
+}
+@keyframes peBlur {
+  0%, 100% { transform: scale(1.12); filter: blur(8px); }
+  45%, 70% { transform: scale(1.08); filter: blur(0); }
+}
+@keyframes peDrift {
+  from { transform: scale(1.12) translateY(4%); }
+  to { transform: scale(1.12) translateY(-4%); }
+}
+@keyframes peSoftZoom {
+  from { transform: scale(1.04); }
+  to { transform: scale(1.12); }
+}
+
+/*
+ * 글자 미리보기 타임라인 (4초 루프 ≈ 실제 앞 2초 연출 + 홀드)
+ * 0~20%  (~0.8s): 전체 등장 (제목+부제)
+ * 20~22%         : 갭
+ * 22~45% (~0.9s): 부분 강조
+ * 이후 홀드 후 리셋
+ */
+.text-loop {
+  --te-dur: 4s;
+}
+
+/* 전체 등장 — 제목(.title-anim) + 부제(.sub-anim) 동일 */
+.te-none .title-anim,
+.te-none .sub-anim { animation: none; opacity: 1; }
+.te-fade-up .title-anim,
+.te-fade-up .sub-anim { animation: teFadeUp var(--te-dur) ease-out infinite; }
+.te-mask-up .title-anim,
+.te-mask-up .sub-anim { animation: teMaskUp var(--te-dur) ease-out infinite; }
+.te-scale-in .title-anim,
+.te-scale-in .sub-anim { animation: teScale var(--te-dur) ease-out infinite; }
+.te-blur-in .title-anim,
+.te-blur-in .sub-anim { animation: teBlur var(--te-dur) ease-out infinite; }
+.te-slide-left .title-anim,
+.te-slide-left .sub-anim { animation: teSlideL var(--te-dur) ease-out infinite; }
+.te-bounce-in .title-anim,
+.te-bounce-in .sub-anim { animation: teBounce var(--te-dur) ease-out infinite; }
+.te-type-block .title-anim,
+.te-type-block .sub-anim { animation: teType var(--te-dur) steps(16) infinite; }
+.te-line-draw .title-anim,
+.te-line-draw .sub-anim { animation: teLineDraw var(--te-dur) ease-out infinite; }
+.te-line-draw .title-anim::after {
+  content: '';
+  display: block;
+  height: 3px;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: var(--accent-fx, var(--red));
+  transform-origin: left center;
+  animation: teLineStroke var(--te-dur) ease-out infinite;
+}
+.te-wipe-right .title-anim,
+.te-wipe-right .sub-anim { animation: teWipe var(--te-dur) ease-out infinite; }
+.te-rise-stagger .title-line { display: block; animation: teRise var(--te-dur) ease-out infinite; }
+.te-rise-stagger .title-line:nth-child(2) { animation-delay: 0.08s; }
+.te-rise-stagger .title-line:nth-child(3) { animation-delay: 0.16s; }
+.te-rise-stagger .sub-anim { animation: teRise var(--te-dur) ease-out 0.12s infinite; }
+
+/* 등장은 0~20%에서 끝, 이후 홀드 */
+@keyframes teFadeUp {
+  0% { opacity: 0; transform: translateY(18px); }
+  20%, 100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes teMaskUp {
+  0% { opacity: 0; clip-path: inset(100% 0 0 0); transform: translateY(12px); }
+  20%, 100% { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+@keyframes teScale {
+  0% { opacity: 0; transform: scale(0.86); }
+  20%, 100% { opacity: 1; transform: scale(1); }
+}
+@keyframes teBlur {
+  0% { opacity: 0; filter: blur(8px); }
+  20%, 100% { opacity: 1; filter: blur(0); }
+}
+@keyframes teSlideL {
+  0% { opacity: 0; transform: translateX(-28px); }
+  20%, 100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes teBounce {
+  0% { opacity: 0; transform: scale(0.7); }
+  14% { opacity: 1; transform: scale(1.06); }
+  20%, 100% { transform: scale(1); opacity: 1; }
+}
+@keyframes teType {
+  0% { opacity: 0.15; letter-spacing: 0.1em; }
+  20%, 100% { opacity: 1; letter-spacing: -0.03em; }
+}
+@keyframes teLineDraw {
+  0% { opacity: 0; transform: translateY(10px); }
+  20%, 100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes teLineStroke {
+  0% { transform: scaleX(0); opacity: 0.4; }
+  18%, 100% { transform: scaleX(1); opacity: 1; }
+}
+@keyframes teWipe {
+  0% { clip-path: inset(0 100% 0 0); opacity: 0.4; }
+  20%, 100% { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+@keyframes teRise {
+  0% { opacity: 0; transform: translateY(16px); }
+  20%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+/* 부분 강조 — 등장(20%) 끝난 뒤 22~45%에서만 진행 */
+.text-loop .title-anim .fx-hl { animation: fxHl var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-redhl { animation: fxRed var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-under { animation: fxUnder var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-box { animation: fxBox var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-strike { animation: fxStrike var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-type { animation: fxTypeMark var(--te-dur) step-end infinite; }
+.text-loop .title-anim .fx-slot { animation: fxSlot var(--te-dur) steps(5) infinite; }
+.text-loop .title-anim .fx-glow { animation: fxGlow var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-outline { animation: fxOutline var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-stamp { animation: fxStamp var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-shake { animation: fxShake var(--te-dur) linear infinite; }
+.text-loop .title-anim .fx-bounce { animation: fxBounce var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-wave { animation: fxUnder var(--te-dur) ease-out infinite; }
+.text-loop .title-anim .fx-fill { animation: fxRed var(--te-dur) ease-out infinite; }
+.text-loop .chip { animation: chipIn var(--te-dur) ease-out infinite; }
+
+@keyframes fxHl {
+  0%, 22% { background-size: 0% 100%; }
+  45%, 100% { background-size: 100% 100%; }
+}
+@keyframes fxRed {
+  0%, 22% { clip-path: inset(0 100% 0 0); }
+  45%, 100% { clip-path: inset(0 0 0 0); }
+}
+@keyframes fxCircle {
+  0%, 22% {
+    opacity: 0;
+    transform: scale(0.9) rotate(-10deg);
+  }
+  45%, 100% {
+    opacity: 1;
+    transform: scale(1) rotate(-7deg);
+  }
+}
+.text-loop .title-anim .fx-circle::before {
+  animation: fxCircle var(--te-dur) ease-out infinite;
+}
+.text-loop .title-anim .fx-circle::after {
+  animation: fxCircle var(--te-dur) ease-out infinite;
+  animation-delay: 0.04s;
+}
+@keyframes fxUnder {
+  0%, 22% { background-size: 0% 4px; }
+  45%, 100% { background-size: 100% 4px; }
+}
+@keyframes fxBox {
+  0%, 22% { outline-color: transparent; }
+  45%, 100% { outline-color: var(--yellow); }
+}
+@keyframes fxStrike {
+  0%, 22% { text-decoration-color: transparent; }
+  45%, 100% { text-decoration-color: var(--red); }
+}
+@keyframes fxSlot {
+  0%, 22% { opacity: 0.55; filter: blur(1px); }
+  35%, 100% { opacity: 1; filter: none; }
+}
+@keyframes fxTypeMark {
+  0%, 22% { border-right-color: var(--yellow); }
+  30%, 34%, 38%, 42% { border-right-color: transparent; }
+  45%, 100% { border-right-color: transparent; }
+}
+@keyframes chipIn {
+  0% { transform: scale(0.92); opacity: 0.7; }
+  18%, 100% { transform: scale(1); opacity: 1; }
+}
+
+.intro-loop { animation: introPop 2.4s ease-in-out infinite; }
+.outro-loop .outro-cta { animation: ctaWiggle 2s ease-in-out infinite; }
+@keyframes introPop {
+  0%, 100% { transform: scale(0.98); opacity: 0.92; }
+  50% { transform: scale(1); opacity: 1; }
+}
+@keyframes ctaWiggle {
+  0%, 100% { transform: rotate(-1.5deg) scale(1); }
+  50% { transform: rotate(1.5deg) scale(1.03); }
+}
+
+.export-panel {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
 }
 .phone .shade {
   position: absolute;
@@ -252,14 +635,199 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   color: rgba(255,255,255,.92);
 }
 
-.fx-hl { background: linear-gradient(transparent 55%, var(--yellow) 55%); }
-.fx-redhl { background: var(--red); color: #fff; padding: 0 4px; }
-.fx-circle { border: 2px solid var(--red); border-radius: 50%; padding: 0 4px; display: inline-block; }
-.fx-under { border-bottom: 3px solid var(--red); }
-.fx-box { outline: 2px solid var(--yellow); padding: 0 4px; }
-.fx-strike { text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 3px; }
-.fx-type { border-right: 2px solid var(--yellow); padding-right: 2px; }
-.fx-slot { color: var(--yellow); font-variant-numeric: tabular-nums; }
+/* 강조 마커 — 미리보기에서 확실히 보이게 */
+.phone h1 .title-line { display: inline; }
+.phone h1 .fx-hl,
+.phone h1 .fx-redhl,
+.phone h1 .fx-circle,
+.phone h1 .fx-under,
+.phone h1 .fx-box,
+.phone h1 .fx-strike,
+.phone h1 .fx-type,
+.phone h1 .fx-slot {
+  display: inline;
+  position: relative;
+  white-space: pre-wrap;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.phone h1 .fx-hl {
+  background-image: linear-gradient(var(--yellow), var(--yellow));
+  background-repeat: no-repeat;
+  background-position: left 70%;
+  background-size: 100% 42%;
+  color: #fff;
+  padding: 0 4px;
+  font-weight: 800;
+  display: inline;
+}
+.phone h1 .fx-redhl {
+  background: var(--red);
+  color: #fff !important;
+  padding: 1px 6px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+}
+.phone h1 .fx-circle {
+  position: relative;
+  display: inline-block;
+  padding: 4px 12px;
+  line-height: 1.15;
+  z-index: 0;
+}
+/* 색연필 원 — 불규칙 타원 3겹 + 살짝 끊긴 선 느낌 */
+.phone h1 .fx-circle::before,
+.phone h1 .fx-circle::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border-style: solid;
+  border-color: var(--accent-fx, var(--red));
+  border-radius: 50% 46% 54% 48% / 48% 52% 46% 54%;
+  transform: rotate(-7deg);
+}
+.phone h1 .fx-circle::before {
+  left: -8%;
+  top: -32%;
+  width: 116%;
+  height: 158%;
+  border-width: 2.8px;
+  opacity: 0.92;
+  box-shadow:
+    0.5px 0.5px 0 color-mix(in srgb, var(--accent-fx, var(--red)) 50%, transparent),
+    -0.4px 0.3px 0 color-mix(in srgb, var(--accent-fx, var(--red)) 30%, transparent);
+}
+.phone h1 .fx-circle::after {
+  left: -5%;
+  top: -26%;
+  width: 112%;
+  height: 150%;
+  border-width: 1.6px;
+  border-radius: 48% 54% 46% 52% / 54% 46% 54% 48%;
+  transform: rotate(-3deg) scale(1.04);
+  opacity: 0.45;
+}
+.phone h1 .fx-under {
+  background-image: linear-gradient(var(--red), var(--red));
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 100% 4px;
+  padding-bottom: 2px;
+}
+.phone h1 .fx-box {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+  padding: 0 4px;
+  display: inline-block;
+}
+.phone h1 .fx-strike {
+  text-decoration: line-through;
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 4px;
+  opacity: 0.95;
+}
+.phone h1 .fx-type {
+  border-right: 3px solid var(--yellow);
+  padding-right: 3px;
+  animation: caret 0.7s step-end infinite;
+}
+.phone h1 .fx-slot {
+  color: var(--yellow) !important;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 12px rgba(255, 225, 77, 0.45);
+}
+.phone h1 .fx-glow {
+  color: #fff;
+  text-shadow: 0 0 10px var(--accent-fx, var(--red)), 0 0 22px var(--accent-fx, var(--red));
+}
+.phone h1 .fx-outline {
+  color: #fff;
+  -webkit-text-stroke: 2px var(--accent-fx, var(--red));
+  paint-order: stroke fill;
+}
+.phone h1 .fx-stamp {
+  display: inline-block;
+  background: var(--accent-fx, var(--red));
+  color: #fff !important;
+  padding: 1px 8px;
+  transform: rotate(-4deg);
+  font-weight: 800;
+}
+.phone h1 .fx-shake { display: inline-block; }
+.phone h1 .fx-bounce { display: inline-block; }
+.phone h1 .fx-wave {
+  background-image: linear-gradient(var(--accent-fx, var(--red)), var(--accent-fx, var(--red)));
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 100% 3px;
+  padding-bottom: 3px;
+}
+.phone h1 .fx-fill {
+  background: var(--accent-fx, var(--red));
+  color: #fff !important;
+  padding: 1px 6px;
+}
+.phone h1 .fx-redhl {
+  background: var(--accent-fx, var(--red));
+}
+.phone h1 .fx-under {
+  background-image: linear-gradient(var(--accent-fx, var(--red)), var(--accent-fx, var(--red)));
+}
+@keyframes caret { 50% { border-color: transparent; } }
+@keyframes fxGlow {
+  0%, 22% { text-shadow: 0 0 0 transparent; }
+  45%, 100% { text-shadow: 0 0 14px var(--accent-fx, var(--red)), 0 0 24px var(--accent-fx, var(--red)); }
+}
+@keyframes fxOutline {
+  0%, 22% { -webkit-text-stroke-color: transparent; }
+  45%, 100% { -webkit-text-stroke-color: var(--accent-fx, var(--red)); }
+}
+@keyframes fxStamp {
+  0%, 22% { transform: rotate(-12deg) scale(0.85); opacity: 0; }
+  45%, 100% { transform: rotate(-4deg) scale(1); opacity: 1; }
+}
+@keyframes fxShake {
+  0%, 22% { transform: translateX(0); }
+  28% { transform: translateX(-2px); }
+  34% { transform: translateX(2px); }
+  40% { transform: translateX(-1px); }
+  45%, 100% { transform: translateX(0); }
+}
+@keyframes fxBounce {
+  0%, 22% { transform: translateY(0); }
+  32% { transform: translateY(-5px); }
+  45%, 100% { transform: translateY(0); }
+}
+
+.muted-hint { color: var(--muted); font-size: 11px; }
+.export-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(8, 9, 12, 0.72);
+  display: grid;
+  place-items: center;
+}
+.export-card {
+  width: min(360px, 90vw);
+  background: #1a1b22;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 20px;
+  text-align: center;
+}
+.export-card strong { display: block; margin: 12px 0 6px; font-size: 14px; }
+.export-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.export-spin {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px solid #333;
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .field { display: block; margin-bottom: 12px; }
 .field > span {
@@ -282,23 +850,53 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
 .field input:focus, .field textarea:focus, .field select:focus {
   border-color: #c9e949;
 }
-
+.field-hint {
+  display: block;
+  margin: 6px 0 0;
+  font-size: 10px;
+  font-style: normal;
+  color: var(--muted);
+  line-height: 1.4;
+  font-weight: 500;
+}
+.field-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+.color-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.emphasis-block {
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #1a1b22;
+}
 .marker-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin: 0 0 10px;
+  margin: 8px 0 0;
 }
 .marker-bar button {
-  border: 1px solid var(--border);
-  background: #24262f;
+  border: 1px solid #3a3c48;
+  background: #2a2c36;
   color: #d7dae4;
   border-radius: 999px;
-  padding: 5px 8px;
-  font-size: 10px;
-  font-weight: 700;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
 }
-.marker-bar button:hover { border-color: var(--accent); color: var(--accent); }
+.marker-bar button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
 .batch {
   margin-top: 18px;
@@ -359,7 +957,9 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   font-size: 12px;
   font-weight: 700;
   z-index: 50;
-  max-width: 360px;
+  max-width: min(480px, 90vw);
+  white-space: normal;
+  line-height: 1.4;
 }
 .empty-phone {
   position: absolute;
