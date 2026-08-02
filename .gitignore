@@ -8,3 +8,5 @@ data/content.json
 public/photos/uploads/*
 !public/photos/uploads/.gitkeep
 tsconfig.tsbuildinfo
+.vercel
+.env*

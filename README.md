@@ -11,7 +11,7 @@
 
 | | |
 |---|---|
-| **사이트** | _(배포 후 이 칸에 URL이 채워집니다)_ |
+| **사이트** | https://cardnews-video-studio.vercel.app |
 | **저장소** | https://github.com/minwoo19930301/cardnews-video-studio |
 
 배포는 **Vercel** (또는 Cloudflare Pages) 기준입니다. `ai-ing` 등 별도 호스팅을 쓰지 않습니다.
