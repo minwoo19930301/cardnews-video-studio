@@ -1,0 +1,18 @@
+{
+  "title": "미디어 하이브리드 데모 8",
+  "subtitle": "2026. 07. 08 WED",
+  "brand": {
+    "logoText": "HYBRID MEDIA",
+    "handle": "@hybrid_media"
+  },
+  "slides": [
+    {"image": "photos/demo/01.jpg", "title": "하이브리드 ==콘텐츠== 시대\n새로운 포맷 도입", "text": "스틸 이미지 슬라이드"},
+    {"image": "photos/demo/video.mp4", "title": "@@실시간 동영상@@ 지원\n부드러운 루프 모션", "text": "MP4 비디오 슬라이드 (동적 렌더)"},
+    {"image": "photos/demo/03.jpg", "title": "텍스트 __어노테이션__\n자유로운 위치 설정", "text": "오른쪽 상단 배치 설정"},
+    {"image": "photos/demo/sample.gif", "title": "[[움직이는 GIF]] 포맷\n네이티브 애니메이션", "text": "GIF 애니메이션 자동 루프"},
+    {"image": "photos/demo/05.jpg", "title": "클래식 ~~정적 이미지~~도\n당연히 완벽 지원", "text": "스틸 이미지 슬라이드"},
+    {"image": "photos/demo/video.mp4", "title": "비디오 슬라이드 %%재시연%%\n데이터 기반 비디오 매핑", "text": "MP4 비디오 슬라이드"},
+    {"image": "photos/demo/07.jpg", "title": "여름 시즌 ##1,200##명\n한정 얼리버드 혜택", "text": "숫자 슬롯 로터리 효과"},
+    {"image": "photos/demo/sample.gif", "title": "마무리 ++GIF 애니메이션++\n브랜드 아웃트로 진입", "text": "GIF 애니메이션 슬라이드"}
+  ]
+}

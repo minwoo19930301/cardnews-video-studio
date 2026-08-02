@@ -1,0 +1,18 @@
+{
+  "title": "오늘의 뉴스 8",
+  "subtitle": "2026. 07. 07 TUE",
+  "brand": {
+    "logoText": "{로고 넣는 자리}",
+    "handle": "{주소}"
+  },
+  "slides": [
+    {"image": "photos/demo/01.jpg", "title": "친환경 ==리포레스트== 캠페인\n숲에서 시작", "text": "판매 수익 1%를 조림 사업에 기부"},
+    {"image": "photos/demo/02.jpg", "title": "로드트립 컬렉션 공개\n@@드라이브@@ 시즌 개막", "text": "차박·캠핑 라인 동시 출시"},
+    {"image": "photos/demo/03.jpg", "title": "아웃도어 룩북 __선공개__\n모자부터 화보", "text": "브랜드 앰배서더 첫 촬영 비하인드"},
+    {"image": "photos/demo/04.jpg", "title": "[[뉴욕 1호점]] 확정\n내년 봄 오픈", "text": "미국 시장 첫 진출"},
+    {"image": "photos/demo/05.jpg", "title": "~~단종~~ 아니고 리뉴얼\n클래식 라인 부활", "text": "패키지·성분 전면 개편"},
+    {"image": "photos/demo/06.jpg", "title": "%%사막에서 찍었습니다%%\n신규 캠페인 티저", "text": "촬영지 전체 공개는 다음 주"},
+    {"image": "photos/demo/07.jpg", "title": "여름 한정 ##2,500##개\n리미티드 에디션", "text": "해안 도시 팝업에서 선판매"},
+    {"image": "photos/demo/08.jpg", "title": "국립공원 ++협업 에디션++\n수익금 전액 기부", "text": "자연 보호 기금 조성 프로젝트"}
+  ]
+}

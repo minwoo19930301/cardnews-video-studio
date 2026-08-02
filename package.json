@@ -1,0 +1,32 @@
+{
+  "name": "cardnews-video-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "카드뉴스 영상 스튜디오 — 어드민에서 미디어·문구·강조를 넣고 1080×1920 세로 영상 렌더 (기본 1장, 최대 8장)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "studio": "remotion studio src/video/index.ts",
+    "render": "remotion render src/video/index.ts Reel out/reel.mp4 --props=data/content.json",
+    "demo": "remotion render src/video/index.ts Reel out/demo.mp4 --props=data/sample.json",
+    "placeholders": "node scripts/make-placeholders.mjs",
+    "check": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.485",
+    "@remotion/fonts": "^4.0.485",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.485"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@types/web": "^0.0.352",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.0"
+  }
+}

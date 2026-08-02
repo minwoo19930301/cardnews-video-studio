@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-admin
+out
+.DS_Store
+*.log
+data/content.json
+public/photos/uploads/*
+!public/photos/uploads/.gitkeep
+tsconfig.tsbuildinfo
