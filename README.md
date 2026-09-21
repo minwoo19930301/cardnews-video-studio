@@ -1,5 +1,11 @@
 # Cardnews Video Studio
 
+<!-- PROJECT-PRESENTATION:START -->
+<a href="https://cardnews-video-studio.vercel.app"><img src=".github/project-cover.svg" alt="Cardnews Video Studio" width="960"></a>
+
+[![OPEN APP](https://img.shields.io/badge/OPEN%20APP-2C6049?style=for-the-badge)](https://cardnews-video-studio.vercel.app) [![QUICK START](https://img.shields.io/badge/QUICK%20START-374151?style=for-the-badge)](#로컬-실행) [![SOURCE](https://img.shields.io/badge/SOURCE-444444?style=for-the-badge)](https://github.com/minwoo19930301/cardnews-video-studio)
+<!-- PROJECT-PRESENTATION:END -->
+
 어드민에서 카드뉴스 슬라이드(사진·영상·문구·강조 마커)를 만들고 **1080×1920** 세로 영상으로 내보내는 스튜디오입니다.  
 **기본 예시는 1장**, 최대 **8장**까지 지원합니다.
 
