@@ -1,4 +1,6 @@
-/** 부분 강조 마커 파서 */
+/** 부분 강조 마커 파서 — 마커 목록은 types.ts EMPHASIS_BTNS 한 곳에서 관리 */
+import {EMPHASIS_BTNS} from './types';
+
 export type Fx =
   | 'none'
   | 'hl'
@@ -15,78 +17,117 @@ export type Fx =
   | 'shake'
   | 'bounce'
   | 'wave'
-  | 'fill';
+  | 'fill'
+  | 'spark'
+  | 'shine'
+  | 'pop'
+  | 'count'
+  | 'scribble'
+  | 'arrow';
 
 export type Tok = {text: string; fx: Fx};
 
-/**
- * 마커 문법 (긴 것 우선 매칭):
- * ==형광== @@원@@ __밑줄__ [[박스]] ~~취소~~ %%타이핑%% ##숫자## ++빨간++
- * **글로우** ::외곽:: <<스탬프>> !!흔들!! ^^통통^^ ≈≈물결≈≈ {{채움}}
- */
+const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/** ==형광== @@원@@ __밑줄__ ... 각 마커가 캡처 그룹 하나 */
+const MARKER_RE = new RegExp(
+  EMPHASIS_BTNS.map((m) => `${esc(m.open)}(.+?)${esc(m.close)}`).join('|'),
+  'g',
+);
+
+/** 마커 기호만 지운 순수 텍스트 (폭 계산·한 글자씩 등장용) */
+export function stripMarkers(line: string): string {
+  return line.replace(MARKER_RE, (...args) => {
+    const groups = args.slice(1, 1 + EMPHASIS_BTNS.length) as Array<string | undefined>;
+    return groups.find((g) => g != null) ?? '';
+  });
+}
+
 export function parseFx(line: string): Tok[] {
   const out: Tok[] = [];
-  const re =
-    /(==(.+?)==|@@(.+?)@@|__(.+?)__|\[\[(.+?)\]\]|~~(.+?)~~|%%(.+?)%%|##(.+?)##|\+\+(.+?)\+\+|\*\*(.+?)\*\*|::(.+?)::|<<(.+?)>>|!!(.+?)!!|\^\^(.+?)\^\^|≈≈(.+?)≈≈|\{\{(.+?)\}\})/g;
+  const re = new RegExp(MARKER_RE.source, 'g');
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(line)) !== null) {
     if (m.index > last) out.push({text: line.slice(last, m.index), fx: 'none'});
-    const groups = m as unknown as string[];
-    // map capture groups 2.. to fx
-    let fx: Fx = 'none';
-    let text = '';
-    if (m[2] != null) {
-      fx = 'hl';
-      text = m[2];
-    } else if (m[3] != null) {
-      fx = 'circle';
-      text = m[3];
-    } else if (m[4] != null) {
-      fx = 'under';
-      text = m[4];
-    } else if (m[5] != null) {
-      fx = 'box';
-      text = m[5];
-    } else if (m[6] != null) {
-      fx = 'strike';
-      text = m[6];
-    } else if (m[7] != null) {
-      fx = 'type';
-      text = m[7];
-    } else if (m[8] != null) {
-      fx = 'slot';
-      text = m[8];
-    } else if (m[9] != null) {
-      fx = 'redhl';
-      text = m[9];
-    } else if (m[10] != null) {
-      fx = 'glow';
-      text = m[10];
-    } else if (m[11] != null) {
-      fx = 'outline';
-      text = m[11];
-    } else if (m[12] != null) {
-      fx = 'stamp';
-      text = m[12];
-    } else if (m[13] != null) {
-      fx = 'shake';
-      text = m[13];
-    } else if (m[14] != null) {
-      fx = 'bounce';
-      text = m[14];
-    } else if (m[15] != null) {
-      fx = 'wave';
-      text = m[15];
-    } else if (m[16] != null) {
-      fx = 'fill';
-      text = m[16];
-    }
-    out.push({text, fx});
+    const gi = EMPHASIS_BTNS.findIndex((_, i) => m![i + 1] != null);
+    out.push({text: m[gi + 1] ?? '', fx: (EMPHASIS_BTNS[gi]?.id ?? 'none') as Fx});
     last = m.index + m[0].length;
   }
   if (last < line.length) out.push({text: line.slice(last), fx: 'none'});
   return out.length ? out : [{text: line, fx: 'none'}];
+}
+
+type Span = {start: number; end: number; inner: string; id: string};
+
+/** 글 전체에서 강조 구간 위치 찾기 */
+function scanSpans(value: string): Span[] {
+  const out: Span[] = [];
+  const re = new RegExp(MARKER_RE.source, 'g');
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(value)) !== null) {
+    const gi = EMPHASIS_BTNS.findIndex((_, i) => m![i + 1] != null);
+    out.push({start: m.index, end: m.index + m[0].length, inner: m[gi + 1] ?? '', id: EMPHASIS_BTNS[gi]?.id ?? ''});
+  }
+  return out;
+}
+
+/** 겹겹이 쌓인 것까지 강조 기호를 모두 지운다 */
+export function clearMarkers(value: string): string {
+  let prev = '';
+  let cur = value;
+  for (let i = 0; i < 10 && cur !== prev; i++) {
+    prev = cur;
+    cur = cur
+      .split('\n')
+      .map((l) => stripMarkers(l))
+      .join('\n');
+  }
+  return cur;
+}
+
+/**
+ * 강조 적용: 기호를 겹치지 않는다.
+ * - 이미 강조된 곳이면 그 강조를 새 것으로 바꾼다 (같은 강조면 해제)
+ * - 선택이 없으면 커서가 있는 강조 구간, 없으면 커서 앞뒤 단어
+ */
+export function applyEmphasis(
+  value: string,
+  selStart: number,
+  selEnd: number,
+  id: string,
+): {next: string; cursor: number; removed: boolean} {
+  const btn = EMPHASIS_BTNS.find((b) => b.id === id);
+  if (!btn) return {next: value, cursor: selEnd, removed: false};
+  const spans = scanSpans(value);
+  let s = Math.min(selStart, selEnd);
+  let e = Math.max(selStart, selEnd);
+
+  if (s === e) {
+    const inside = spans.find((sp) => s >= sp.start && s <= sp.end);
+    if (inside) {
+      s = inside.start;
+      e = inside.end;
+    } else {
+      // 커서 앞뒤로 공백이 아닌 글자를 단어로
+      const isWord = (ch: string | undefined) => !!ch && !/\s/.test(ch);
+      while (s > 0 && isWord(value[s - 1])) s--;
+      while (e < value.length && isWord(value[e])) e++;
+      if (s === e) return {next: value, cursor: selEnd, removed: false};
+    }
+  }
+  // 걸친 강조 구간은 통째로 포함
+  for (const sp of spans) {
+    if (sp.start < e && sp.end > s) {
+      s = Math.min(s, sp.start);
+      e = Math.max(e, sp.end);
+    }
+  }
+  const exact = spans.find((sp) => sp.start === s && sp.end === e);
+  const inner = clearMarkers(value.slice(s, e));
+  const removed = !!exact && exact.id === id;
+  const rep = removed ? inner : btn.open + inner + btn.close;
+  return {next: value.slice(0, s) + rep + value.slice(e), cursor: s + rep.length, removed};
 }
 
 export function wrapSelection(

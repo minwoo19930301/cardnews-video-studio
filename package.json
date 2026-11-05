@@ -12,7 +12,11 @@
     "render": "remotion render src/video/index.ts Reel out/reel.mp4 --props=data/content.json",
     "demo": "remotion render src/video/index.ts Reel out/demo.mp4 --props=data/sample.json",
     "placeholders": "node scripts/make-placeholders.mjs",
-    "check": "tsc -b --pretty false"
+    "check": "tsc -b --pretty false",
+    "mcp:build": "esbuild mcp/server.ts mcp/motion-server.ts mcp/cli.ts --bundle --platform=node --format=esm --packages=external --outdir=mcp/dist --out-extension:.js=.mjs",
+    "mcp": "npm run -s mcp:build && node mcp/dist/server.mjs",
+    "render:node": "npm run -s mcp:build && node mcp/dist/cli.mjs video",
+    "mcp:motion": "npm run -s mcp:build && node mcp/dist/motion-server.mjs"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.485",
@@ -24,11 +28,15 @@
     "remotion": "^4.0.485"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@types/web": "^0.0.352",
     "@vitejs/plugin-react": "^5.0.0",
+    "esbuild": "^0.28.2",
+    "skia-canvas": "^4.0.0",
     "typescript": "^5.9.2",
-    "vite": "^7.1.0"
+    "vite": "^7.1.0",
+    "zod": "^4.6.7"
   }
 }

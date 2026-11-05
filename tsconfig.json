@@ -15,5 +15,5 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "data", "vite.config.ts"]
+  "include": ["src", "data", "mcp", "vite.config.ts"], "exclude": ["mcp/dist"]
 }

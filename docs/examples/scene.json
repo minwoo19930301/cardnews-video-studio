@@ -1,0 +1,16 @@
+{
+  "width": 1080,
+  "height": 1080,
+  "fps": 30,
+  "duration": 4,
+  "background": {"from": "#14161c", "to": "#2a2f3a", "angle": 120},
+  "layers": [
+    {"type": "circle", "radius": 260, "color": "#ff6b4a", "x": 540, "y": 540,
+     "animate": {"scale": [[0, 0], [0.8, 1, "spring"]], "opacity": [[3.4, 1], [4, 0]]}},
+    {"type": "text", "text": "Motion Studio", "size": 110, "weight": 800, "color": "#ffffff", "y": 520,
+     "reveal": {"by": "chars", "preset": "pop", "duration": 0.7, "delay": 0.4}},
+    {"type": "text", "text": "레이어와 키프레임으로 자유롭게", "size": 40, "color": "#ffe9e2", "y": 640, "start": 1, "enter": "fade-up"},
+    {"type": "line", "points": [[300, 700], [780, 700]], "color": "#ffffff", "width": 6, "start": 1.2,
+     "animate": {"progress": [[0, 0], [0.6, 1, "easeOutCubic"]]}}
+  ]
+}

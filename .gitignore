@@ -10,3 +10,4 @@ public/photos/uploads/*
 tsconfig.tsbuildinfo
 .vercel
 .env*
+mcp/dist

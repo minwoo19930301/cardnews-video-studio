@@ -105,41 +105,6 @@ export async function loadMedia(
   return el ? {type: 'image', el} : null;
 }
 
-/** 캔버스 cover 그리기 (이미지 또는 비디오 프레임) */
-export function drawMediaCover(
-  ctx: CanvasRenderingContext2D,
-  media: LoadedMedia,
-  canvasW: number,
-  canvasH: number,
-  scale = 1,
-  videoTime?: number,
-) {
-  let iw = 0;
-  let ih = 0;
-  if (media.type === 'image') {
-    iw = media.el.naturalWidth || media.el.width;
-    ih = media.el.naturalHeight || media.el.height;
-  } else {
-    if (typeof videoTime === 'number' && Number.isFinite(videoTime)) {
-      try {
-        media.el.currentTime = Math.min(
-          Math.max(0, videoTime),
-          Math.max(0, (media.el.duration || 1) - 0.05),
-        );
-      } catch {
-        /* ignore seek errors mid-record */
-      }
-    }
-    iw = media.el.videoWidth || 1080;
-    ih = media.el.videoHeight || 1920;
-  }
-  if (!iw || !ih) return;
-  const base = Math.max(canvasW / iw, canvasH / ih) * scale;
-  const dw = iw * base;
-  const dh = ih * base;
-  ctx.drawImage(media.el as CanvasImageSource, (canvasW - dw) / 2, (canvasH - dh) / 2, dw, dh);
-}
-
 /** 깨진 blob URL 여부 대략 검사 */
 export async function mediaLooksAlive(src: string, kind?: 'image' | 'video'): Promise<boolean> {
   if (!src) return false;
